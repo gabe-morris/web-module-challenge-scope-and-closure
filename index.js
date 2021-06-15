@@ -32,7 +32,7 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   2. Which of the two uses a closure? How can you tell?
     A: Counter1 - its reaching into its parent scope to grab a value that has been defined
   3. In what scenario would the counter1 code be preferable? In what scenario would 
-     counter2 be better?  
+     counter2 be better?
 */
 
 // counter1 code
@@ -82,15 +82,16 @@ Use the finalScore function below to do the following:
 */ 
 
 function finalScore(inningCB,innings){
+  //holds each teams total score
   let homeScore = 0;
   let awayScore = 0;
   //adds score until inning limit is reached;
   for(let i = 0;i <= innings; i++){
     homeScore += inningCB();
     awayScore += inningCB();
-  } 
-
+  }
   return{
+    //returns each teams final score after x innings played
     Home: homeScore,
     Away: awayScore,
   }
@@ -102,9 +103,11 @@ Use the getInningScore() function below to do the following:
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
 function getInningScore(inningCB) {
+  //holds each teams score
   let homeScore = inningCB();
   let awayScore = inningCB();
   return{
+    //displays each teams score
     Home: homeScore,
     Away: awayScore,
   }
@@ -151,16 +154,28 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(inningScoreCB,inningCB, inningNum) {
+function scoreboard(inningScoreCB,inningCB,inningNum){
   let scoreboard = [];
   let homeScore = 0;
   let awayScore = 0;
-  for(let i = 0; array.length <= inningNum; i++){
-    
+  let totalHome = 0;
+  let totalAway = 0;
+  // for x innings it will push current score into the array and add the totals to each variable
+  for(let i = 0; i < inningNum; i++){
+    const currentScore = inningScoreCB(inningCB);
+    homeScore = currentScore.Home;
+    awayScore = currentScore.Away;
+    totalHome += homeScore;
+    totalAway += awayScore;
+    scoreboard.push(`Inning ${i + 1}: Away ${currentScore.Away} - Home ${currentScore.Home}`)
+  }if(totalHome === totalAway){// if scores tie, push tie string into the array
+    scoreboard.push(`This game will require extra innings: Away ${totalAway} - Home ${totalHome}`)
+  }else { //else push the normal final score into the array
+    scoreboard.push(`Final Score: Away ${totalAway} - Home ${totalHome}`)
   }
-
+  return scoreboard; // returns completed array
 }
-
+console.log("Task 5",scoreboard(getInningScore,inning,9));
 
 
 
